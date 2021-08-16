@@ -1,24 +1,13 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const booker = express();
 const port = process.env.PORT || 3000;
 const database = require('./dataset');
 booker.use(express.json());
 booker.use(express.urlencoded({extended:true}));
 
-//Database Connection
-mongoose.connect(process.env.MONGO_URL,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-}
-).then(()=>
-{
-    console.log('Database Connected');
-});
 
+//--------------------------------------------------------------------------------
 /* 
 Route           /
 Description     To get all the books
@@ -34,6 +23,7 @@ booker.get('/',(req,res)=>
         }
     );
 });
+//-----------------------------------------------------------------------------------
 /* 
 Route           /books/new
 Description     To get all the Publications based on book isbn
@@ -56,6 +46,7 @@ Access          PUBLIC
 Parameter       isbn
 Methods         GET
 */
+//-----------------------------------------------------------------------------------
 booker.get('/books/isbn/:isbn',(req,res)=>
 {
     const getSpecificBook = database.Books.filter(
@@ -78,6 +69,7 @@ booker.get('/books/isbn/:isbn',(req,res)=>
     }
     
 });
+//-------------------------------------------------------------------------------
 /* 
 Route           /books/category/
 Description     To get all the books of a particular category
@@ -107,6 +99,7 @@ booker.get('/books/category/:category',(req,res)=>
     }
     
 });
+//---------------------------------------------------------------------------------
 /* 
 Route           /books/language/
 Description     To get all the books of a particular language
@@ -136,6 +129,7 @@ booker.get('/books/language/:lang',(req,res)=>
     }
     
 });
+//--------------------------------------------------------------------------------
 
 /* 
 Route           /authors
@@ -167,6 +161,7 @@ booker.post('/authors/new',(req,res)=>{
             book : database.Authors
         });
 });
+//--------------------------------------------------------------------------------
 /* 
 Route           /authors
 Description     To get specific author based on id
@@ -194,6 +189,7 @@ booker.get('/authors/:id',(req,res)=>
         })
     }
 });
+//-------------------------------------------------------------------------------
 /* 
 Route           /authors/book/
 Description     To get all the Authors based on book isbn
@@ -221,6 +217,7 @@ booker.get('/authors/book/:isbn',(req,res)=>
         })
     }
 });
+//------------------------------------------------------------------------------------
 /* 
 Route           /Publications
 Description     To get all the publications
@@ -236,6 +233,7 @@ booker.get('/Publications',(req,res)=>
         }
     );
 });
+//-------------------------------------------------------------------------------------
 /* 
 Route           /Publications/new
 Description     To add a new Publications
@@ -264,6 +262,7 @@ booker.post('/Publications/new/',(req,res)=>{
             book : database.Publications
         });
 });
+//--------------------------------------------------------------------------------
 /* 
 Route           /Publications/
 Description     To get publications author based on id
@@ -291,6 +290,7 @@ booker.get('/Publications/:pub_id',(req,res)=>
         })
     }
 });
+//-------------------------------------------------------------------------------
 /* 
 Route           /Publications/book/
 Description     To get all the Publications based on book isbn
@@ -318,6 +318,7 @@ booker.get('/Publications/book/:isbn',(req,res)=>
         })
     }
 });
+//------------------------------------------------------------------------
 
 /* 
 Route           /Publications/update/book/:isbn
